@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM Littéraire - Modèle vierge</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
+  .question { margin: 20px 0; }
+  button { margin-top: 10px; padding: 8px 16px; }
+  .hidden { display: none; }
+  .timer { font-size: 20px; color: red; }
+</style>
+</head>
+<body>
+<h1>QCM Personnalisable - Chronométré</h1>
+<div id="quiz">
+  <div class="question" id="questionText"></div>
+  <div id="answers"></div>
+  <button id="Ÿs" class="hidden">Question suivante</button>
+  <div class="timer" id="timer"></div>
+  <div id="result"></div>
+</div>
+
+<script>
+// 🔧 Remplis ici tes questions personnalisées :
+
+const questions = [
+  {
+    text: "Qui est le père de la négritude",
+    options: ["Léopold Sesar Senghor", "Albert Camus", "Aimée Césaire", "Aucun"],
+    correct: 2
+  },
+  {
+    text: "quel est le courant litéraire qui valorise le métissage culturel  et la langue créole",
+    options: ["La Négritude", "L'Antillanité", "La Créolité", "Le Réalisme merveilleux"],
+    correct: 2
+  },
+  {
+    text: "La Négritude est un mouvement:",
+    options: ["a. Litéraire, Politique et culturel", "b. purement scientifique", "c. Agricole", "d. Musical uniquement"],
+    correct: 1
+  },
+  {
+    text: "Qui est considéré comme le père de la Négritude ?",
+    options: ["Léopold Sédar Senghor", "Aimé Césaire", "Léon-Gontran Damas", "Frantz Fanon"],
+    correct: 1
+  },
+  {
+    text: "La Négritude est un mouvement :",
+    options: ["Littéraire, politique et culturel", "Purement scientifique", "Agricole", "Musical uniquement"],
+    correct: 0
+  },
+  {
+    text: "L'un des objectifs de la Négritude était de :",
+    options: ["Promouvoir le colonialisme", "Rejeter les cultures africaines", "Valoriser les identités et cultures noires", "Interdire la poésie"],
+    correct: 2
+  },
+  {
+    text: "Le terme \"Négritude\" est popularisé par :",
+    options: ["Léopold Sédar Senghor", "Aimé Césaire", "Léon-Gontran Damas", "Frantz Fanon"],
+    correct: 1
+  },
+  {
+    text: "Dans quel contexte historique la Négritude est-elle née ?",
+    options: ["Après la Seconde Guerre mondiale", "Pendant les grandes découvertes", "Dans les années 1930, en réaction au colonialisme et au racisme", "Au XIXe siècle, pendant la révolution industrielle"],
+    correct: 2
+  },
+  { text: "Qui est considéré comme le père de la Négritude ?", 
+    options: ["Aimé Césaire", "Seydou Badian", "Frédéric Pacéré Titinga", "Frantz Fanon"], 
+    correct: 0 
+  },
+  { text: "Quel auteur burkinabè a écrit 'Le Cri de la Termitière' ?", 
+    options: ["Norbert Zongo", "Patrick Ilboudo", "Roger Nikiéma", "Pierre Claver Ilboudo"],
+    correct: 1 
+  },
+  { text: "L'œuvre 'Une si longue lettre' est de :",
+    options: ["Mariama Bâ", "Nawal El Saadawi", "Bernadette Sanou Dao", "Amadou Hampâté Bâ"],
+    correct: 0 
+  },
+  { text: "Dans quelle langue principale écrit Frédéric Pacéré Titinga ?",
+    options: ["Français", "Mooré", "Dioula", "Gourmantchéma"],
+    correct: 1
+  },
+  { text: "Quelle est la nationalité de Birago Diop ?", 
+    options: ["Burkinabè", "Sénégalaise", "Maliènne", "Camerounaise"], 
+    correct: 1 
+  },
+  { text: "L'auteur du roman 'Les Soleils des Indépendances' est :", 
+    options: ["Ahmadou Kourouma", "Cheikh Hamidou Kane", "Bernadette Dao", "Joseph Ki-Zerbo"], 
+    correct: 0 
+  },
+  { text: "Quelle thématique est fréquemment abordée dans la littérature burkinabè ?", 
+    options: ["Les robots", "Les traditions et la société", "L'espace", "La science-fiction"],
+    correct: 1 
+  },
+  { text: "Quel auteur burkinabè est aussi connu comme historien ?", 
+    options: ["Norbert Zongo", "Joseph Ki-Zerbo", "Roger Nikiéma", "Boubacar Boris Diop"], 
+    correct: 1 
+  },
+  { text: "L'œuvre 'Le Vieux Nègre et la Médaille' critique :",
+    options: ["Le colonialisme", "Les traditions africaines", "La médecine moderne", "La religion"], 
+    correct: 0 
+  },
+  { text: "Amadou Hampâté Bâ est célèbre pour avoir dit :", 
+    options: ["L'Afrique aux Africains", "En Afrique, quand un vieillard meurt, c'est une bibliothèque qui brûle", "Liberté ou la mort", "Les armes ne font pas la paix"],
+    correct: 1
+  },
+  { text: "Quel prix célèbre récompense les écrivains africains ?", 
+    options: ["Goncourt des Lycéens", "Prix Renaudot", "Grand Prix Littéraire d'Afrique Noire", "Prix Pulitzer"],
+    correct: 2 
+  },
+  { text: "Quelle écrivaine burkinabè est aussi connue pour son engagement politique ?",
+    options: ["Bernadette Sanou Dao", "Mariama Bâ", "Fatou Diome", "Adiza Sanou"], 
+    correct: 0 
+  },
+  { text: "Le roman 'Les bouts de bois de Dieu' traite :", 
+    options: ["Des traditions peules", "De la grève des cheminots en Afrique de l'Ouest", "Des contes burkinabè", "De la diaspora"], 
+    correct: 1 
+  },
+  { text: "Le conte est une forme littéraire importante en Afrique car :",
+    options: ["Il permet de transmettre les savoirs et les valeurs", "C'est purement religieux", "Il vient d'Europe", "C'est uniquement pour les enfants"],
+    correct: 0
+  },
+  { text: "Qui est considéré comme un défenseur du patrimoine oral africain ?",
+    options: ["Aimé Césaire", "Cheikh Anta Diop", "Amadou Hampâté Bâ", "Joseph Ki-Zerbo"],
+    correct: 2 
+  },
+  { text: "Quel auteur burkinabè a aussi été journaliste et militant ?",
+    options: ["Norbert Zongo", "Boubacar Boris Diop", "Seydou Badian", "Léopold Sédar Senghor"], 
+    correct: 0 
+  },
+  { text: "La littérature africaine s'est développée notamment en réaction :",
+    options: ["À la mondialisation", "À la colonisation", "À la guerre froide", "Au capitalisme"],
+    correct: 1 
+  },
+  { text: "Dans la littérature burkinabè, la transmission orale :", 
+    options: ["N'existe pas", "Est fondamentale", "Est négligée", "Est réservée aux touristes"], 
+    correct: 1 
+  },
+  { text: "Frédéric Pacéré Titinga est connu pour :", 
+    options: ["Ses romans policiers", "Ses poèmes en langues nationales", "Ses livres pour enfants", "Ses pièces de théâtre comique"], 
+    correct: 1
+  },
+  { text: "L'œuvre 'Tam-Tam d'Afrique' est associée à :", 
+    options: ["Seydou Badian", "Frédéric Pacéré Titinga", "Birago Diop", "Bernadette Sanou Dao"], 
+    correct: 2 }
+    // Tu peux copier-coller ce bloc pour ajouter autant de questions que tu veux
+];
+
+// Pas besoin de toucher au reste du code !
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+const timePerQuestion = 15; // secondes
+
+const questionText = document.getElementById("questionText");
+const answersDiv = document.getElementById("answers");
+const nextBtn = document.getElementById("nextBtn");
+const timerDisplay = document.getElementById("timer");
+const resultDisplay = document.getElementById("result");
+
+function startTimer() {
+  let timeLeft = timePerQuestion;
+  timerDisplay.textContent = `Temps restant : ${timeLeft}s`;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `Temps restant : ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      showCorrectAnswer();
+      nextBtn.classList.remove("hidden");
+    }
+  }, 1000);
+}
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  questionText.textContent = q.text;
+  answersDiv.innerHTML = "";
+  resultDisplay.textContent = "";
+  nextBtn.classList.add("hidden");
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(idx);
+    answersDiv.appendChild(btn);
+  });
+  startTimer();
+}
+
+function checkAnswer(selected) {
+  clearInterval(timer);
+  const q = questions[currentQuestion];
+  if (selected === q.correct) {
+    score++;
+    resultDisplay.textContent = "Bonne réponse !";
+  } else {
+    resultDisplay.textContent = `Mauvaise réponse ! La bonne était : ${q.options[q.correct]}`;
+  }
+  nextBtn.classList.remove("hidden");
+}
+
+function showCorrectAnswer() {
+  const q = questions[currentQuestion];
+  resultDisplay.textContent = `Temps écoulé ! La bonne réponse était : ${q.options[q.correct]}`;
+}
+
+nextBtn.onclick = () => {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    showFinalResult();
+  }
+};
+
+function showFinalResult() {
+  quiz.innerHTML = `<h2>Votre score : ${score} / ${questions.length}</h2>`;
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>
